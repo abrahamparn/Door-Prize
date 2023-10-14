@@ -11,15 +11,63 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <!--<link rel="stylesheet" href="css/style.css" />-->
     <script src="js/renderer.js" defer></script>
-    <title>Image Resizer</title>
-    
+    <title>Door Prize Application</title>
   </head>
-<body>
-    <p>This is for electron js</p>
-    <p class="electron"></p>
-    <p class="node"></p>
-    <p class="chrome"></p>
+<body class=" bgLightBlue d-flex flex-column min-vh-100 theBody">
+  <main class="container-fluid">
+    <h1 class="text-center">Door Prize Application</h1>
+    <div class="d-flex flex-row">
+      <div class="d-flex flex-column col-3">
+        <div class=" card">
+          <h3 class="text-center">Required Data</h3>
+          <form class="m-3">
+            <div class="form-group mb-2">
+              <label class="form-label mb-0">Select The Number of People</label>
+              <small>Notes: 1 to 100</small>
+              <input class="form-control validation" type="number" id="number">
+              <div class="validation-feedback"></div>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label mb-0">Doorprize name:</label>
+              <input class="form-control validation" type="text" id="name">
+              <div class="validation-feedback"></div>
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label mb-0">Input Database</label>
+              <small>(Optional)</small><small id="downloadTemplate" class="colorMaroon"> Download Template</small>
+              <input class="form-control" type="file" id="databaseExcel"/>
+            </div>
+            <button class="btn btn-primary w-100" id="submit">Submit</button>
+          </form>
+        </div>
+        <div class="card mt-2">
+         <div class="card-body"> 
+            <div class="form-group mb-2">
+              <label class="form-label mb-0">Background Image</label>
+              <input type="file" id="fileBackground" class="form-control mb-3">
+              <button class="btn btn-secondary w-100" id="clearBackground">Remove Background</button>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <hr/>
+      <section class="col-9">
+        <h3 class="text-center">Rolling!</h3>
+      </section>
+    </div>
+  </main>
+  <footer class="mt-auto text-center">
+    <hr/>
+    <p>Made with &#10084; for PTMI</p>
+  </footer>
+
+ 
 </body>
 </html>
