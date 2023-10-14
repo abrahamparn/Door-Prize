@@ -121,7 +121,7 @@ ipcMain.on('downloadFolder', () => {
 // THIS FUNCTION IS TO EXTRACT THE DATA FROM THE EXCEL
 function getDataParticipants(){
     // Reading our test file 
-    const file = reader.readFile('./Template_Database.xlsx') // Change this to make it dynamic
+    const file = reader.readFile('./Template_Database.xlsx') // Change this to make it dynamic a
     let data = [] 
     
     const sheets = file.SheetNames 
