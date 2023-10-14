@@ -6,14 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "build":"electron-packager ."
-
+    "build": "electron-packager ."
   },
-  "author": "Abraham PN", 
+  "author": "Abraham PN",
   "license": "MIT",
   "dependencies": {
     "electron": "^27.0.0",
     "electron-packager": "^17.1.2"
   }
 }
-
