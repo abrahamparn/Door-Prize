@@ -17,5 +17,14 @@
     "exceljs": "^4.3.0",
     "xlsx": "^0.18.5",
     "xlsx-populate": "^1.21.0"
+  },
+  "devDependencies": {
+    "electron-builder": "^24.6.4"
+  },
+  "build": {
+    "appId": "com.myApp",
+    "extraResources": [
+      "./DataBaseFolder/Template_Database.xlsx"
+    ]
   }
 }
