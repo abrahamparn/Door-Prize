@@ -154,12 +154,13 @@ Rolling.addEventListener('click', ()=>{
 let datadata = document.querySelector('.datadata')
 ipcRenderer.on('sendRollingData', function(data){
     console.log(data)
+    document.getElementById('CardDisplay').classList.remove('d-none')
     if(data.Error != null){
         datadata.innerHTML = data.Message
 
     }else{
         let namesHtml = `Door Price:${data.theDoorPriceName}<br>`; // Initialize an empty string to accumulate the names
-
+        
         data.ChoosenOne.forEach((item) => {
             console.log(item);
             namesHtml += `${item.NAME} (KPK: ${item.KPK})<br>`; // Add each name to the string

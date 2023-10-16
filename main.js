@@ -6,6 +6,8 @@ const reader = require('xlsx')
 let rollNumber = 1;
 let theDoorPriceName;
 const ExcelJS = require('exceljs');
+const databaseFilePath = path.join(process.resourcesPath, 'Template_Database.xlsx');
+
 
 const isMac = process.platform === 'darwin'
 process.env.NODE_ENV = 'development'
@@ -168,7 +170,7 @@ ipcMain.on('excel:doNothing', (e, options) => {
 // THIS FUNCTION IS TO EXTRACT THE DATA FROM THE EXCEL
 function getDataParticipants(){
     // Reading our test file 
-    const file = reader.readFile('./DataBaseFolder/Template_Database.xlsx') // Change this to make it dynamic a
+    const file = reader.readFile(databaseFilePath) // Change this to make it dynamic a
     let data = [] 
     
     const sheets = file.SheetNames 
@@ -178,8 +180,7 @@ function getDataParticipants(){
                 file.Sheets[file.SheetNames[i]]) 
                 temp.forEach((res) => { 
                     if(res.ISSELECTED != 1){
-                        data.push({NAME: res.Name, KPK:res.KPK, ISSELECTED: res.ISSELECTED}) 
-                      
+                        data.push({NAME: res.Name, KPK:res.KPK}) 
                     }
                 }
         ) 
@@ -241,33 +242,119 @@ function RollingData(makanan){
     ChoosenOne.push(shuffledArray[i])
    }
    console.log(shuffledArray)
-   
+   WriteEXCEL()
    return ChoosenOne
 }
 
 
-async function updateISSELECTED(choosenArray) {
-    const workbook = new ExcelJS.Workbook();
-    await workbook.xlsx.readFile('./DataBaseFolder/Template_Database.xlsx');
-    const worksheet = workbook.getWorksheet(1);
-    choosenArray.map(item =>{
-        worksheet.eachRow({ includeEmpty: false }, function(row, rowNumber) {
-            if (row.getCell(1).value === item.NAME && row.getCell(2).value === item.KPK) {
-                row.getCell('D').value = '1';
-                row.getCell('E').value = theDoorPriceName;
-            }
-        });
-    })
 
-   
-    await workbook.xlsx.writeFile('./DataBaseFolder/Template_Database.xlsx');
+  
+
+// function WriteEXCEL(){
+//     const inputFile = './DataBaseFolder/Template_Database.xlsx'
+//     const sheetName = 'Sheet1';
+//     const workbook = reader.readFile(inputFile);
+//     // Get the worksheet
+//     const worksheet = workbook.Sheets[sheetName];
+//     // Define the columns
+//     const nameColumn = 'A';
+//     const kpkColumn = 'B';
+//     const isSelectedColumn = 'D';
+
+//     const nameToSearch = 'Abraham Naiborhu';
+//     const kpkToSearch = 'I00212';
+//     const isSelectedValue = 1;
+//     for (let i = 2; i <= 10; i++) { // Assuming data starts from row 2 and ends at row 10
+//         const cellName = worksheet[`${nameColumn}${i}`];
+//         const cellKPK = worksheet[`${kpkColumn}${i}`];
+    
+//         if (cellName && cellKPK) {
+//           if (cellName.v === nameToSearch && cellKPK.v === kpkToSearch) {
+//             worksheet[`${isSelectedColumn}${i}`] = { t: 'n', v: isSelectedValue };
+//             break; // Assuming there is only one matching row
+//           }
+//         }
+//       }
+
+//       // Write the updated worksheet back to the workbook
+//     workbook.Sheets[sheetName] = worksheet;
+//     reader.writeFile(workbook, inputFile);
+
+// }
+
+
+// function WriteEXCEL(e){
+//     const inputFile = './DataBaseFolder/Template_Database.xlsx'
+//     const sheetName = 'Sheet1';
+//     const workbook = reader.readFile(inputFile);
+//     // Get the worksheet
+//     const worksheet = workbook.Sheets[sheetName];
+//     // Define the columns
+//     const nameColumn = 'A';
+//     const kpkColumn = 'B';
+//     const isSelectedColumn = 'D';
+
+//     const nameToSearch = 'Abraham Naiborhu';
+//     const kpkToSearch = 'I00212';
+//     const isSelectedValue = 1;
+//     for (let i = 2; i <= 10; i++) { // Assuming data starts from row 2 and ends at row 10
+//         const cellName = worksheet[`${nameColumn}${i}`];
+//         const cellKPK = worksheet[`${kpkColumn}${i}`];
+    
+//         if (cellName && cellKPK) {
+//           if (cellName.v === nameToSearch && cellKPK.v === kpkToSearch) {
+//             worksheet[`${isSelectedColumn}${i}`] = { t: 'n', v: isSelectedValue };
+//             break; // Assuming there is only one matching row
+//           }
+//         }
+//     }
+
+//     // Write the updated worksheet back to the workbook
+//     workbook.Sheets[sheetName] = worksheet;
+//     const workbookData = reader.write(workbook, {type: 'binary'});
+//     fs.writeFile(inputFile, workbookData, 'binary', function(err) {
+//         if(err) {
+//             console.error("Error writing file:", err);
+//         } else {
+//             console.log("File written successfully.");
+//         }
+//     });
+// }
+
+
+function WriteEXCEL(){
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Sheet1');
+    // Define the columns
+    const nameColumn = 'A';
+    const kpkColumn = 'B';
+    const isSelectedColumn = 'D';
+
+    const nameToSearch = 'Abraham Naiborhu';
+    const kpkToSearch = 'I00212';
+    const isSelectedValue = 1;
+    for (let i = 2; i <= 10; i++) { // Assuming data starts from row 2 and ends at row 10
+        const cellName = worksheet[`${nameColumn}${i}`];
+        const cellKPK = worksheet[`${kpkColumn}${i}`];
+    
+        if (cellName && cellKPK) {
+          if (cellName.v === nameToSearch && cellKPK.v === kpkToSearch) {
+            worksheet[`${isSelectedColumn}${i}`] = { t: 'n', v: isSelectedValue };
+            break; // Assuming there is only one matching row
+          }
+        }
+    }
+
+    // Write the updated worksheet back to the workbook
+    workbook.xlsx.writeBuffer()
+        .then(buffer => {
+            fs.writeFile(databaseFilePath, buffer, (err) => {
+                if (err) {
+                    console.error('Error writing file:', err);
+                } else {
+                    console.log('File written successfully.');
+                }
+            });
+        })
+        .catch(err => console.error('Error creating buffer:', err));
 }
-  
-  
-  
-  
-  
-  
-  
-  
-  

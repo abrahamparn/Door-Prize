@@ -29,11 +29,10 @@
   
     <div class="d-flex flex-column-reverse">
       <div class="d-flex flex-row">
-        <div class="col-4"></div>
-        <div class="col-4">
-          <div class="d-flex flex-column">
+        <div class="col-2"></div>
+        <div class="col-8">
+          <div class="d-flex flex-row justify-content-center">
             <div class=" card">
-              <h3 class="text-center">Required Data</h3>
               <form class="m-3">
                 <div class="form-group mb-2">
                   <label class="form-label mb-0">Select The Number of People</label>
@@ -54,7 +53,7 @@
                 <button class="btn btn-primary w-100" id="submit">Submit</button>
               </form>
             </div>
-            <div class="card mt-2">
+            <div class="card">
              <div class="card-body"> 
                 <div class="form-group mb-2">
                   <label class="form-label mb-0">Background Image</label>
@@ -68,16 +67,21 @@
           </div>
     
         </div>
-        <div class="col-4"></div>
+        <div class="col-2"></div>
       </div>
       <hr/>
-      <section class="d-flex flex-column" style="height: 50vh;">
+      <section class="d-flex flex-column" style="height: 40vh;">
         <h3 class="text-center">Rolling!</h3>
-        <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="d-flex flex-column gap-1 justify-content-center align-items-center h-100">
           <div class="card bg-primary" id="buttonRolling">
             <div class="card-body text-white">
               <p class="text-center h-100 m-0">ROLL ME</p>
+            </div>
+          </div>
+          <div class="card d-none" id="CardDisplay">
+            <div class="card-body">
               <p class="datadata"></p>
+
             </div>
           </div>
         </div>
@@ -91,7 +95,7 @@
     </div>
   </main>
   <footer class="mt-auto text-center pt-2" style="color: white; background-color: cadetblue;">
-    <p>Made with &#10084; for PTMI</p>
+    <p class="mb-0">Made with &#10084; for PTMI</p>
   </footer>
 
  
