@@ -3,6 +3,9 @@ const path = require('path')
 const os = require('os')
 const fs = require('fs')
 const reader = require('xlsx') 
+let rollNumber = 1;
+let theDoorPriceName;
+const ExcelJS = require('exceljs');
 
 const isMac = process.platform === 'darwin'
 process.env.NODE_ENV = 'development'
@@ -12,8 +15,8 @@ let mainWindow;
 function createMainWindow(){
      mainWindow = new BrowserWindow({
         title:"Title...", // Change it if you want
-        width: isDev? 1000: 500, // Change it if you want
-        height: isDev? 1000: 600, // Change it if you want
+        width: isDev? 1000: 1000, // Change it if you want
+        height: isDev? 1000: 1000, // Change it if you want
         webPreferences: {
             contextIsolation:true,
             nodeIntegration:true,
@@ -113,36 +116,13 @@ ipcMain.on('downloadFolder', () => {
             console.log('File copied successfully.');
 
             // Open the 'template' folder
-            shell.openPath(templateFolder);getDataParticipants()
+            shell.openPath(templateFolder);
         }
     });
 });
-
-// THIS FUNCTION IS TO EXTRACT THE DATA FROM THE EXCEL
-function getDataParticipants(){
-    // Reading our test file 
-    const file = reader.readFile('./Template_Database.xlsx') // Change this to make it dynamic a
-    let data = [] 
-    
-    const sheets = file.SheetNames 
-    
-    for(let i = 0; i < sheets.length; i++) { 
-        const temp = reader.utils.sheet_to_json( 
-                file.Sheets[file.SheetNames[i]]) 
-                temp.forEach((res) => { 
-                    if(res.ISSELECTED !== 1){
-                        data.push(res.Name) 
-                    }
-                }
-        ) 
-    } 
-    console.log(data)
-}
-
 // THIS IS TO RECEIVE THE EXCEL
 // Response to IPC Renderer
 ipcMain.on('excel:doNothing', (e, options) => {
-    console.log(options);
 
     // 1. Remove Any Files from the DataBaseFolder
     const dataBaseFolder = path.join(__dirname, 'DataBaseFolder'); // Assuming 'DataBaseFolder' is in the same directory as your script
@@ -180,3 +160,114 @@ ipcMain.on('excel:doNothing', (e, options) => {
         });
     }
 });
+//STARTING HERE, EVERYTHING IS ABOUT THE ROLLING FUNCTION ROLLING 
+//FUNCTION ROLLING FUNCTION
+//FUNCTION ROLLING FUNCTION
+//FUNCTION ROLLING FUNCTION
+//FUNCTION ROLLING FUNCTION
+// THIS FUNCTION IS TO EXTRACT THE DATA FROM THE EXCEL
+function getDataParticipants(){
+    // Reading our test file 
+    const file = reader.readFile('./DataBaseFolder/Template_Database.xlsx') // Change this to make it dynamic a
+    let data = [] 
+    
+    const sheets = file.SheetNames 
+    
+    for(let i = 0; i < sheets.length; i++) { 
+        const temp = reader.utils.sheet_to_json( 
+                file.Sheets[file.SheetNames[i]]) 
+                temp.forEach((res) => { 
+                    if(res.ISSELECTED != 1){
+                        data.push({NAME: res.Name, KPK:res.KPK, ISSELECTED: res.ISSELECTED}) 
+                      
+                    }
+                }
+        ) 
+    } 
+    return data
+}
+
+ipcMain.on('Rollingmiscellaneous', (e, options)=>{
+    console.log(options )
+    rollNumber = +options.rollNumber
+    theDoorPriceName = options.theDoorPriceName
+})
+
+// This is for the door price
+ipcMain.on('RollingDoorPrice', function(event){
+    let makanan = getDataParticipants()
+    console.log(makanan)
+    
+    if(rollNumber < 0 || rollNumber == null){
+        mainWindow.webContents.send('sendRollingData', 
+
+        {Error: 500, Message: "Rolling Number Cannot Be Null"});
+
+    }else if(theDoorPriceName === null || theDoorPriceName === "" || theDoorPriceName === undefined){
+        mainWindow.webContents.send('sendRollingData', {Error: 500, Message: "DoorPrice Name Cannot Be null"});
+
+    }
+    else{
+        let  ChoosenOne = RollingData(makanan)
+        mainWindow.webContents.send('sendRollingData', {ChoosenOne, theDoorPriceName});
+
+    }
+})
+
+function shuffle(array) {
+    let currentIndex = array.length,  randomIndex;
+  
+    // While there remain elements to shuffle.
+    while (currentIndex > 0) {
+  
+      // Pick a remaining element.
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  
+    return array;
+  }
+  
+function RollingData(makanan){
+   let shuffledArray = shuffle(makanan)
+   console.log(shuffledArray)
+   let ChoosenOne = []
+   for(let i = 0; i < rollNumber; i++){
+
+    ChoosenOne.push(shuffledArray[i])
+   }
+   console.log(shuffledArray)
+   
+   return ChoosenOne
+}
+
+
+async function updateISSELECTED(choosenArray) {
+    const workbook = new ExcelJS.Workbook();
+    await workbook.xlsx.readFile('./DataBaseFolder/Template_Database.xlsx');
+    const worksheet = workbook.getWorksheet(1);
+    choosenArray.map(item =>{
+        worksheet.eachRow({ includeEmpty: false }, function(row, rowNumber) {
+            if (row.getCell(1).value === item.NAME && row.getCell(2).value === item.KPK) {
+                row.getCell('D').value = '1';
+                row.getCell('E').value = theDoorPriceName;
+            }
+        });
+    })
+
+   
+    await workbook.xlsx.writeFile('./DataBaseFolder/Template_Database.xlsx');
+}
+  
+  
+  
+  
+  
+  
+  
+  
+  

@@ -3,6 +3,7 @@
 // const node = document.querySelector(".node")
 // const chrome = document.querySelector(".chrome")
 
+
 // electron.innerHTML = "electron's version: "+versions.electron();
 // node.innerHTML = "node's version: "+versions.node();
 // chrome.innerHTML = "chrome's version: "+versions.chrome();
@@ -21,6 +22,7 @@ let number = document.getElementById('number')
 let validationNonFeedback = document.querySelectorAll('.validation');
 let validationFeedback = document.querySelectorAll('.validation-feedback');
 let databaseExcel = document.querySelector('#databaseExcel')
+let doorPriceName = document.querySelector('#name') // This is for the name of the door prize
 
 
 submitButton.addEventListener("click", function(e) {
@@ -51,7 +53,14 @@ submitButton.addEventListener("click", function(e) {
     });
 
     if (valid) {
+        rollNumber = number.value
+        theDoorPriceName = doorPriceName.value
         console.log("Form is valid. Submitting...");
+        ipcRenderer.send('Rollingmiscellaneous', {
+            
+            rollNumber,
+            theDoorPriceName
+        })
 
        if(databaseExcel.value != ''){
         console.log(databaseExcel.value)
@@ -63,8 +72,10 @@ submitButton.addEventListener("click", function(e) {
          }
  
          // send to main using ipcRenderer
+         // send Doorprise Name and the Number of People
          ipcRenderer.send('excel:doNothing', {
-            databaseExcel2
+            databaseExcel2,
+           
          })
        }
 
@@ -135,3 +146,25 @@ function isFileExcel(file) {
 
 // ENDS HERE
 // ENDS HERE
+
+let Rolling = document.getElementById('buttonRolling')
+Rolling.addEventListener('click', ()=>{ 
+    ipcRenderer.send('RollingDoorPrice')
+})
+let datadata = document.querySelector('.datadata')
+ipcRenderer.on('sendRollingData', function(data){
+    console.log(data)
+    if(data.Error != null){
+        datadata.innerHTML = data.Message
+
+    }else{
+        let namesHtml = `Door Price:${data.theDoorPriceName}<br>`; // Initialize an empty string to accumulate the names
+
+        data.ChoosenOne.forEach((item) => {
+            console.log(item);
+            namesHtml += `${item.NAME} (KPK: ${item.KPK})<br>`; // Add each name to the string
+        });
+
+        datadata.innerHTML = namesHtml; 
+    }
+})
