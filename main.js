@@ -10,7 +10,7 @@ const databaseFilePath = path.join(process.resourcesPath, 'Template_Database.xls
 
 
 const isMac = process.platform === 'darwin'
-process.env.NODE_ENV = 'production'
+process.env.NODE_ENV = 'development'
 const isDev = process.env.NODE_ENV !== 'production'
 
 let mainWindow;
@@ -245,7 +245,7 @@ function RollingData(makanan){
     ChoosenOne.push(shuffledArray[i])
    }
    console.log(shuffledArray)
-   WriteEXCEL(ChoosenOne)
+   //WriteEXCEL(ChoosenOne)
    return ChoosenOne
 }
 

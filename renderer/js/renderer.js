@@ -146,7 +146,17 @@ function isFileExcel(file) {
 
 // ENDS HERE
 // ENDS HERE
+const duration = 2000;
+let namesHtml
+let letters
+let steps 
 
+const map = (n, x1, y1, x2, y2) => Math.min(Math.max(((n - x1) * (y2 - x2)) / (y1 - x1) + x2, x2), y2);
+
+const random = (set) => set[Math.floor(Math.random() * set.length)];
+
+let frame;
+let startTime = 0; // Initialize the startTime variable
 let Rolling = document.getElementById('buttonRolling')
 Rolling.addEventListener('click', ()=>{ 
     ipcRenderer.send('RollingDoorPrice')
@@ -157,15 +167,39 @@ ipcRenderer.on('sendRollingData', function(data){
     document.getElementById('CardDisplay').classList.remove('d-none')
     if(data.Error != null){
         datadata.innerHTML = data.Message
-
     }else{
-        let namesHtml = `Door Price:${data.theDoorPriceName}<br>`; // Initialize an empty string to accumulate the names
+        namesHtml = `Door Price: ${data.theDoorPriceName}<br>`; // Initialize an empty string to accumulate the names
         
         data.ChoosenOne.forEach((item) => {
             console.log(item);
-            namesHtml += `${item.NAME} (KPK: ${item.KPK})<br>`; // Add each name to the string
+            namesHtml += `${item.NAME} KPK: ${item.KPK}<br>`; // Add each name to the string
         });
+        
+        // Initialize letters and steps here
+        letters = String(namesHtml).split("");
+        steps = letters.length;
 
-        datadata.innerHTML = namesHtml; 
+        cancelAnimationFrame(frame); // Stop the previous animation (if any)
+        startTime = Date.now(); // Reset the startTime
+        animate();
     }
 })
+
+
+
+
+function animate() {
+    frame = requestAnimationFrame(animate);
+
+    const currentTime = Date.now();
+    const step = Math.round(map(currentTime - startTime, 0, duration, 0, steps));
+
+    datadata.innerHTML = letters
+    .map((s, i) => (step - 1 >= i ? letters[i] : random("081383838")))
+    .join("");
+
+    if (step >= steps) {
+    cancelAnimationFrame(frame);
+    }
+}
+
