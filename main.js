@@ -173,7 +173,7 @@ function getDataParticipants(){
     // Reading our test file 
     const file = reader.readFile(path.join(__dirname, './renderer/Template_Database.xlsx')) // Change this to make it dynamic a
     let data = [] 
-    
+
     
     const sheets = file.SheetNames 
     
@@ -245,7 +245,7 @@ function RollingData(makanan){
     ChoosenOne.push(shuffledArray[i])
    }
    console.log(shuffledArray)
-   //WriteEXCEL(ChoosenOne)
+//    WriteEXCEL(ChoosenOne)
    return ChoosenOne
 }
 
@@ -275,11 +275,12 @@ function WriteEXCEL(ChoosenOne){
               }
             }
           }
-    })
-    
-
-      // Write the updated worksheet back to the workbook
+           // Write the updated worksheet back to the workbook
     workbook.Sheets[sheetName] = worksheet;
     reader.writeFile(workbook, inputFile);
 
+    })
+    
+
+     
 }

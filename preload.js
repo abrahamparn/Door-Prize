@@ -13,7 +13,6 @@ const {contextBridge,ipcRenderer} = require('electron')
 const os = require('os')
 const path = require('path')
 
-
 contextBridge.exposeInMainWorld('os', {
   homedir: () => os.homedir()
   // we can also expose variables, not just functions

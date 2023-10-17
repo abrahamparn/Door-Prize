@@ -4,6 +4,7 @@
 // const chrome = document.querySelector(".chrome")
 
 
+
 // electron.innerHTML = "electron's version: "+versions.electron();
 // node.innerHTML = "node's version: "+versions.node();
 // chrome.innerHTML = "chrome's version: "+versions.chrome();
@@ -61,7 +62,7 @@ submitButton.addEventListener("click", function(e) {
             rollNumber,
             theDoorPriceName
         })
-
+        getFileAndChangeBackground(theDoorPriceName)
        if(databaseExcel.value != ''){
         console.log(databaseExcel.value)
          // Sending the excel file to the place and removing anything else from that folder
@@ -81,47 +82,67 @@ submitButton.addEventListener("click", function(e) {
 
         // Add code to submit the form or perform other actions here.
     } else {
-        console.log("Form is not valid.");
+        alert("Form is not valid.");
     }
 });
 
-let fileBackgroundInput = document.getElementById('fileBackground');
-let mainContainer = document.querySelector('.theBody');
+// let fileBackgroundInput = document.getElementById('fileBackground');
+// let mainContainer = document.querySelector('.theBody');
 
-fileBackgroundInput.addEventListener('change', function () {
-    const file = this.files[0];
+// fileBackgroundInput.addEventListener('change', function () {
+//     const file = this.files[0];
 
-    // Check if a file was selected
-    if (file) {
-        // Check if the selected file is an image (you can use more precise image types)
-        if (file.type.startsWith('image/')) {
-            // Create a URL for the selected image
-            const imageURL = URL.createObjectURL(file);
+//     // Check if a file was selected
+//     if (file) {
+//         // Check if the selected file is an image (you can use more precise image types)
+//         if (file.type.startsWith('image/')) {
+//             // Create a URL for the selected image
+//             const imageURL = URL.createObjectURL(file);
 
-            // Set the background image of the main container
-            mainContainer.style.backgroundImage = `url(${imageURL})`;
-            mainContainer.style.backgroundSize = 'cover';
-            mainContainer.style.backgroundRepeat = 'no-repeat';
-            mainContainer.style.backgroundAttachment = 'fixed'; // Optional, for fixed background
-            mainContainer.style.backgroundPosition = 'center center';
-        } else {
-            // Handle the case where the selected file is not an image
-            alert('Please select a valid image file.');
-            // Clear the file input if an invalid file is selected
-            fileBackgroundInput.value = '';
-        }
-    }
-});
+//             // Set the background image of the main container
+//             mainContainer.style.backgroundImage = `url(${imageURL})`;
+//             mainContainer.style.backgroundSize = 'cover';
+//             mainContainer.style.backgroundRepeat = 'no-repeat';
+//             mainContainer.style.backgroundAttachment = 'fixed'; // Optional, for fixed background
+//             mainContainer.style.backgroundPosition = 'center center';
+//         } else {
+//             // Handle the case where the selected file is not an image
+//             alert('Please select a valid image file.');
+//             // Clear the file input if an invalid file is selected
+//             fileBackgroundInput.value = '';
+//         }
+//     }
+// });
 
 // THIS IS THE DATABASE CHECKER
 // STARTS HERE
 // STARTS HERE
-let clearBackgroundButton = document.getElementById('clearBackground');
+// let clearBackgroundButton = document.getElementById('clearBackground');
 
-clearBackgroundButton.addEventListener('click', function () {
-    mainContainer.style.backgroundImage = 'none';
-    fileBackgroundInput.value = ''; // Clear the file input
-});
+// clearBackgroundButton.addEventListener('click', function () {
+//     mainContainer.style.backgroundImage = 'none';
+//     fileBackgroundInput.value = ''; // Clear the file input
+// });
+function getFileAndChangeBackground(backGroundName){
+    let makanan = backGroundName;
+    if(hasWhiteSpace(backGroundName) === true){
+        makanan =  backGroundName.split(" ")
+        makanan = makanan.join('%20')
+    }
+    var link = `../renderer/image/${makanan}.jpg`
+    let mainContainer = document.querySelector('.theBody');
+        // Set the background image of the main container
+    mainContainer.style.backgroundImage = `url(${link})`;
+    console.log(link)
+    mainContainer.style.backgroundSize = 'cover';
+    mainContainer.style.backgroundRepeat = 'no-repeat';
+    mainContainer.style.backgroundAttachment = 'fixed'; // Optional, for fixed background
+    mainContainer.style.backgroundPosition = 'center center';
+}
+
+function hasWhiteSpace(s) {
+    return s.indexOf(' ') >= 0;
+  }
 
 databaseExcel.addEventListener('change', loadFile)
 
@@ -162,19 +183,21 @@ Rolling.addEventListener('click', ()=>{
     ipcRenderer.send('RollingDoorPrice')
 })
 let datadata = document.querySelector('.datadata')
+let judulDoorPrise = document.querySelector('.judulData')
 ipcRenderer.on('sendRollingData', function(data){
     console.log(data)
     document.getElementById('CardDisplay').classList.remove('d-none')
     if(data.Error != null){
         datadata.innerHTML = data.Message
     }else{
-        namesHtml = `Door Price: ${data.theDoorPriceName}<br>`; // Initialize an empty string to accumulate the names
+        judulHTML = `${data.theDoorPriceName}`
+        namesHtml = ``; // Initialize an empty string to accumulate the names
         
         data.ChoosenOne.forEach((item) => {
             console.log(item);
-            namesHtml += `${item.NAME} KPK: ${item.KPK}<br>`; // Add each name to the string
+            namesHtml += `${item.NAME} (${item.KPK}) (NomorPeserta)<br>`; // Add each name to the string
         });
-        
+        judulDoorPrise.innerHTML = judulHTML
         // Initialize letters and steps here
         letters = String(namesHtml).split("");
         steps = letters.length;
