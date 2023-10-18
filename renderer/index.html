@@ -11,13 +11,15 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" type="text/css" href="./css/font.css">
+
     <link rel="stylesheet" href="./css/index.css">
     <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <!--<link rel="stylesheet" href="css/style.css" />-->
     <script src="js/renderer.js" defer></script>
     <title>Door Prize Application</title>
   </head>
-<body class=" bgLightBlue d-flex flex-column min-vh-100 theBody">
+<body class=" bgLightBlue d-flex flex-column min-vh-100 theBody" style="font-family: Roboto">
   <header>
     <div style="background-color: cadetblue;">
       <h1 class="text-center pt-2" style="color: white;">Door Prize Application</h1>
@@ -51,11 +53,7 @@
                   </select>
                   <div class="validation-feedback"></div>
                 </div>
-                <div class="form-group mb-3">
-                  <label class="form-label mb-0">Input Database</label>
-                  <small>(Optional)</small><small id="downloadTemplate" class="colorMaroon"> Download Template</small>
-                  <input class="form-control" type="file" id="databaseExcel"/>
-                </div>
+              
                 <button class="btn btn-primary w-100" id="submit">Submit</button>
               </form>
             </div>

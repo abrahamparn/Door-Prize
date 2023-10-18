@@ -14,6 +14,7 @@ process.env.NODE_ENV = 'development'
 const isDev = process.env.NODE_ENV !== 'production'
 
 let mainWindow;
+let aboutWindow;
 function createMainWindow(){
      mainWindow = new BrowserWindow({
         title:"Title...", // Change it if you want
@@ -36,12 +37,21 @@ function createMainWindow(){
 }
 // Create about window
 function createAboutWindow(){
-    const aboutWindow = new BrowserWindow({
+    aboutWindow = new BrowserWindow({
         title:"Title...", // Change it if you want
-        width: 300, // Change it if you want
-        height: 300, // Change it if you want
+        width: 600, // Change it if you want
+        height: 400, // Change it if you want
+        webPreferences: {
+            contextIsolation:true,
+            nodeIntegration:true,
+            preload: path.join(__dirname, 'preload.js')
+          }
     });
     aboutWindow.setMenu(null);
+    
+    if(isDev){
+        aboutWindow.webContents.openDevTools();
+    }
 
     aboutWindow.loadFile(path.join(__dirname, './renderer/about.html'))
 }
@@ -82,7 +92,7 @@ const menu = [
         label: 'Help',
         submenu: [
             {
-                label:'About',
+                label:'Upload Dataset',
                 click: createAboutWindow
             }
         ]
@@ -127,36 +137,28 @@ ipcMain.on('downloadFolder', () => {
 ipcMain.on('excel:doNothing', (e, options) => {
 
     // 1. Remove Any Files from the DataBaseFolder
-    const dataBaseFolder = path.join(__dirname, 'DataBaseFolder'); // Assuming 'DataBaseFolder' is in the same directory as your script
+    const rendererFolder = path.join(__dirname, 'renderer'); // Assuming 'DataBaseFolder' is in the same directory as your script
 
-    fs.readdir(dataBaseFolder, (err, files) => {
+    fs.readdir(rendererFolder, (err, files) => {
         if (err) {
             console.error("Error reading directory:", err);
+            aboutWindow.webContents.send("errroReadingExcelFile", {name:"Error Reading Excel FIle"})
             return;
         }
 
-        // Iterate through files in the directory and remove them
-        files.forEach((file) => {
-            const filePath = path.join(dataBaseFolder, file);
-            fs.unlink(filePath, (err) => {
-                if (err) {
-                    console.error("Error deleting file:", err);
-                } else {
-                    console.log("File deleted:", filePath);
-                }
-            });
-        });
+        
     });
 
     // 2. Add the Excel File from options.databaseExcel2
     if (options.databaseExcel2) {
-        const excelFileName = path.basename(options.databaseExcel2); // Get the file name from the path
-        const destinationPath = path.join(__dirname, './renderer/Template_Database.xlsx')
+
+        const destinationPath = path.join(__dirname, `./renderer/Template_Database.xlsx`)
 
         fs.copyFile(options.databaseExcel2, destinationPath, (err) => {
             if (err) {
                 console.error("Error copying Excel file:", err);
             } else {
+                aboutWindow.webContents.send("errroReadingExcelFile", {name:"Error Reading Excel FIle"})
                 console.log("Excel file copied to DataBaseFolder:", destinationPath);
             }
         });
@@ -245,42 +247,41 @@ function RollingData(makanan){
     ChoosenOne.push(shuffledArray[i])
    }
    console.log(shuffledArray)
-//    WriteEXCEL(ChoosenOne)
+   WriteEXCEL(ChoosenOne)
    return ChoosenOne
 }
 
 function WriteEXCEL(ChoosenOne){
-    const inputFile = path.join(__dirname, './renderer/Template_Database.xlsx')
-    const sheetName = 'Sheet1';
-    const workbook = reader.readFile(inputFile);
-    // Get the worksheet
-    const worksheet = workbook.Sheets[sheetName];
-    // Define the columns
-    const nameColumn = 'A';
-    const kpkColumn = 'B';
-    const isSelectedColumn = 'D';
-    const DoorPriceColumn = 'E'
-    
-    const isSelectedValue = 1;
-    ChoosenOne.forEach((item) => {
-        for (let i = 2; i <= TotalNumber.length; i++) { // Assuming data starts from row 2 and ends at row 10
-            const cellName = worksheet[`${nameColumn}${i}`];
-            const cellKPK = worksheet[`${kpkColumn}${i}`];
+    ChoosenOne.forEach((item) =>{
+        setTimeout(() => {
+            const inputFile = path.join(__dirname, './renderer/Template_Database.xlsx');
+            const sheetName = 'Sheet1';
+            const workbook = reader.readFile(inputFile);
+            // Get the worksheet
+            const worksheet = workbook.Sheets[sheetName];
+            // Define the columns
+            const nameColumn = 'A';
+            const kpkColumn = 'B';
+            const isSelectedColumn = 'D';
+            const DoorPriceColumn = 'E';
         
-            if (cellName && cellKPK) {
-              if (cellName.v === item.NAME && cellKPK.v === item.KPK) {
-                worksheet[`${isSelectedColumn}${i}`] = { t: 'n', v: isSelectedValue };
-                worksheet[`${DoorPriceColumn}${i}`] = { t: 'n', v: theDoorPriceName };
-                break; // Assuming there is only one matching row
+            const isSelectedValue = 1;
+            for (let i = 2; i <= TotalNumber.length; i++) {
+              const cellName = worksheet[`${nameColumn}${i}`];
+              const cellKPK = worksheet[`${kpkColumn}${i}`];
+        
+              if (cellName && cellKPK) {
+                if (cellName.v === item.NAME && cellKPK.v === item.KPK) {
+                  worksheet[`${isSelectedColumn}${i}`] = { t: 'n', v: isSelectedValue };
+                  worksheet[`${DoorPriceColumn}${i}`] = { t: 'n', v: theDoorPriceName };
+                  break; // Assuming there is only one matching row
+                }
               }
             }
-          }
-           // Write the updated worksheet back to the workbook
-    workbook.Sheets[sheetName] = worksheet;
-    reader.writeFile(workbook, inputFile);
-
+        
+            // Write the updated worksheet back to the workbook
+            workbook.Sheets[sheetName] = worksheet;
+            reader.writeFile(workbook, inputFile);
+          }, 100); // Delay each iteration by 0.1 seconds (100 milliseconds)  
     })
-    
-
-     
 }

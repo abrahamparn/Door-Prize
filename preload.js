@@ -28,3 +28,14 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
   on: (channel, func) => ipcRenderer.on(channel, (event, ...args) => func(...args))
   // we can also expose variables, not just functions
 })
+
+
+const Roboto = require('@electron-fonts/roboto');
+
+// Expose functions or variables to the renderer process
+contextBridge.exposeInMainWorld('robot', {
+  // You can add functions or variables here, for example:
+  injectRobotoFont: () => {
+    Roboto.inject();
+  }
+});

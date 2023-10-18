@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Content-Security-Policy" content="script-src 'self'"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="./css/font.css">
+
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="css/style.css" />-->
+    <script src="js/about/renderer.js" defer></script>
+    <title>Door Prize Application</title>
+  </head>
+<body class=" bgLightBlue d-flex flex-column min-vh-100 theBody" style="font-family: Roboto">
+  <header>
+    <div style="background-color: cadetblue;">
+      <h1 class="text-center pt-2" style="color: white;">Upload Dataset</h1>
+    </div>
+  </header>
+  <main class="container-fluid">
+ 
+  
+    <div class="d-flex flex-column-reverse">
+      <div class="d-flex flex-row">
+        <div class="col-2"></div>
+        <div class="col-8">
+          <div class="d-flex flex-row justify-content-center">
+            <div class=" card">
+              <form class="m-3">
+      
+                <div class="form-group mb-3">
+                  <label class="form-label mb-0">Input Database</label>
+                  <small>(Optional)</small><small id="downloadTemplate" class="colorMaroon"> Download Template</small>
+                  <input class="form-control" type="file" id="databaseExcel"/>
+                </div>
+                <button class="btn btn-primary w-100" id="submit">Submit</button>
+              </form>
+            </div>
+           
+          </div>
+    
+        </div>
+        <div class="col-2"></div>
+      </div>
+    
+      
+      
+      
+      
+      
+    </div>
+  </main>
+  <footer class="mt-auto text-center pt-2" style="color: white; background-color: cadetblue;">
+    <p class="mb-0">Made with &#10084; for PTMI</p>
+  </footer>
+
+ 
+</body>
+</html>
