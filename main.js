@@ -10,7 +10,7 @@ const databaseFilePath = path.join(process.resourcesPath, 'Template_Database.xls
 
 
 const isMac = process.platform === 'darwin'
-process.env.NODE_ENV = 'development'
+process.env.NODE_ENV = 'production'
 const isDev = process.env.NODE_ENV !== 'production'
 
 let mainWindow;
@@ -250,38 +250,178 @@ function RollingData(makanan){
    WriteEXCEL(ChoosenOne)
    return ChoosenOne
 }
+// function WriteEXCEL(ChoosenOne){
 
-function WriteEXCEL(ChoosenOne){
-    ChoosenOne.forEach((item) =>{
-        setTimeout(() => {
-            const inputFile = path.join(__dirname, './renderer/Template_Database.xlsx');
-            const sheetName = 'Sheet1';
-            const workbook = reader.readFile(inputFile);
-            // Get the worksheet
-            const worksheet = workbook.Sheets[sheetName];
-            // Define the columns
-            const nameColumn = 'A';
-            const kpkColumn = 'B';
-            const isSelectedColumn = 'D';
-            const DoorPriceColumn = 'E';
+//     ChoosenOne.forEach((item) =>{
+//         setTimeout(() => {
+            
+
+//             const data = `${item.NAME} ${item.KPK} ${theDoorPriceName}`;
+//             fs.writeFile(path.join(__dirname, './file.txt'), data, {flag: 'a+'}, (err) => { 
+//                 if (err) { 
+//                     throw err; 
+//                 } 
+//                 console.log("File is updated."); 
+//             });
+     
+//             const inputFile = path.join(__dirname, './renderer/Template_Database.xlsx');
+//             const sheetName = 'Sheet1';
+//             const workbook = reader.readFile(inputFile);
+//             // Get the worksheet
+//             const worksheet = workbook.Sheets[sheetName];
+//             // Define the columns
+//             const nameColumn = 'A';
+//             const kpkColumn = 'B';
+//             const isSelectedColumn = 'D';
         
-            const isSelectedValue = 1;
-            for (let i = 2; i <= TotalNumber.length; i++) {
-              const cellName = worksheet[`${nameColumn}${i}`];
-              const cellKPK = worksheet[`${kpkColumn}${i}`];
+//             const isSelectedValue = 1;
+//             for (let i = 2; i <= TotalNumber.length; i++) {
+//               const cellName = worksheet[`${nameColumn}${i}`];
+//               const cellKPK = worksheet[`${kpkColumn}${i}`];
         
-              if (cellName && cellKPK) {
-                if (cellName.v === item.NAME && cellKPK.v === item.KPK) {
-                  worksheet[`${isSelectedColumn}${i}`] = { t: 'n', v: isSelectedValue };
-                  worksheet[`${DoorPriceColumn}${i}`] = { t: 'n', v: theDoorPriceName };
-                  break; // Assuming there is only one matching row
+//               if (cellName && cellKPK) {
+//                 if (cellName.v === item.NAME && cellKPK.v === item.KPK) {
+//                   worksheet[`${isSelectedColumn}${i}`] = { t: 'n', v: isSelectedValue };
+//                   break; // Assuming there is only one matching row
+//                 }
+//               }
+//             }
+        
+//             // Write the updated worksheet back to the workbook
+//             workbook.Sheets[sheetName] = worksheet;
+//             reader.writeFile(workbook, inputFile);
+//           }, 100); // Delay each iteration by 0.1 seconds (100 milliseconds)  
+//     })
+// }
+
+async function WriteEXCEL(ChoosenOne) {
+    for (const item of ChoosenOne) {
+      try {
+        const data = `${item.NAME} ${item.KPK} ${theDoorPriceName}`;
+        console.log(data)
+        await fs.appendFile(path.join(__dirname, './renderer/file.txt'), data+'\n', {flag: 'a+'}, (err) => { 
+            if (err) { 
+                throw err; 
+            } 
+            console.log("File is updated."); 
+        });
+        
+        const inputFile = path.join(__dirname, './renderer/Template_Database.xlsx');
+        const sheetName = 'Sheet1';
+        const workbook = reader.readFile(inputFile);
+         // Get the worksheet
+              const worksheet = workbook.Sheets[sheetName];
+              // Define the columns
+              const nameColumn = 'A';
+              const kpkColumn = 'B';
+              const isSelectedColumn = 'D';
+          
+              const isSelectedValue = 1;
+              for (let i = 2; i <= TotalNumber.length; i++) {
+                const cellName = worksheet[`${nameColumn}${i}`];
+                const cellKPK = worksheet[`${kpkColumn}${i}`];
+          
+                if (cellName && cellKPK) {
+                  if (cellName.v === item.NAME && cellKPK.v === item.KPK) {
+                    worksheet[`${isSelectedColumn}${i}`] = { t: 'n', v: isSelectedValue };
+                    break; // Assuming there is only one matching row
+                  }
                 }
               }
-            }
+          
+              // Write the updated worksheet back to the workbook
+              workbook.Sheets[sheetName] = worksheet;
+              reader.writeFile(workbook, inputFile);
+      } catch (err) {
+        console.error("Error writing to file.txt:", err);
+      }
+      await new Promise(resolve => setTimeout(resolve, 100)); // Delay each iteration by 100 milliseconds
+    }
+  }
+
+
+// THIS WORKS WORKS WORKS
+// function WriteEXCEL(ChoosenOne){
+//         let doorPriceNameInThis = theDoorPriceName
+
+//     ChoosenOne.forEach((item) =>{
+//         setTimeout(() => {
+//             const inputFile = path.join(__dirname, './renderer/Template_Database.xlsx');
+//             const sheetName = 'Sheet1';
+//             const workbook = reader.readFile(inputFile);
+//             // Get the worksheet
+//             const worksheet = workbook.Sheets[sheetName];
+//             // Define the columns
+//             const nameColumn = 'A';
+//             const kpkColumn = 'B';
+//             const isSelectedColumn = 'D';
+//             const DoorPriceColumn = 'E';
         
-            // Write the updated worksheet back to the workbook
-            workbook.Sheets[sheetName] = worksheet;
-            reader.writeFile(workbook, inputFile);
-          }, 100); // Delay each iteration by 0.1 seconds (100 milliseconds)  
-    })
-}
+//             const isSelectedValue = 1;
+//             for (let i = 2; i <= TotalNumber.length; i++) {
+//               const cellName = worksheet[`${nameColumn}${i}`];
+//               const cellKPK = worksheet[`${kpkColumn}${i}`];
+        
+//               if (cellName && cellKPK) {
+//                 if (cellName.v === item.NAME && cellKPK.v === item.KPK) {
+//                   worksheet[`${isSelectedColumn}${i}`] = { t: 'n', v: isSelectedValue };
+//                   worksheet[`${DoorPriceColumn}${i}`] = { t: 'n', v: doorPriceNameInThis };
+//                   break; // Assuming there is only one matching row
+//                 }
+//               }
+//             }
+        
+//             // Write the updated worksheet back to the workbook
+//             workbook.Sheets[sheetName] = worksheet;
+//             reader.writeFile(workbook, inputFile);
+//           }, 100); // Delay each iteration by 0.1 seconds (100 milliseconds)  
+//     })
+// }
+
+
+// async function WriteEXCEL(dataArray){
+//     console.log(dataArray)
+//     let doorPriceNameInThis = theDoorPriceName
+//     for (let item of dataArray) {
+//         try {
+//             await new Promise((resolve) => {
+//                 setTimeout(async () => {
+//                     const inputFile = path.join(__dirname, './renderer/Template_Database.xlsx');
+//                     const sheetName = 'Sheet1';
+//                     const workbook = reader.readFile(inputFile);
+//                     const worksheet = workbook.Sheets[sheetName];
+                    
+//                     const nameColumn = 'A';
+//                     const kpkColumn = 'B';
+//                     const isSelectedColumn = 'D';
+//                     const doorPriceColumn = 'E';
+//                     const isSelectedValue = 1;
+
+//                     // Check if TotalNumber exists and is an array
+//                     if (!Array.isArray(TotalNumber)) {
+//                         throw new Error('TotalNumber is not defined or not an array');
+//                     }
+
+//                     for (let i = 2; i <= TotalNumber.length; i++) {
+//                         const cellName = worksheet[`${nameColumn}${i}`];
+//                         const cellKPK = worksheet[`${kpkColumn}${i}`];
+                
+//                         if (cellName && cellKPK) {
+//                             if (cellName.v === item.NAME && cellKPK.v === item.KPK) {
+//                                 worksheet[`${isSelectedColumn}${i}`] = { t: 'n', v: isSelectedValue };
+//                                 worksheet[`${doorPriceColumn}${i}`] = { t: 'n', v: doorPriceNameInThis };
+//                                 break; // Assuming there is only one matching row
+//                             }
+//                         }
+//                     }
+                
+//                     workbook.Sheets[sheetName] = worksheet;
+//                     reader.writeFile(workbook, inputFile);
+//                     resolve();
+//                 }, 100); // Delay each iteration by 0.1 seconds (100 milliseconds)
+//             });
+//         } catch (error) {
+//             console.error(`Error occurred while processing item ${item.NAME}: ${error.message}`);
+//         }
+//     }
+// }
