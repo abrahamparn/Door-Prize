@@ -10,7 +10,7 @@ const databaseFilePath = path.join(process.resourcesPath, 'Template_Database.xls
 
 
 const isMac = process.platform === 'darwin'
-process.env.NODE_ENV = 'production'
+process.env.NODE_ENV = 'development'
 const isDev = process.env.NODE_ENV !== 'production'
 
 let mainWindow;
@@ -73,34 +73,123 @@ app.whenReady().then(()=>{
 
 // MENU TEMPLATE  // Change it if you want
 const menu = [
-    ...(isMac ? [{
-        label: app.name,
-        subMenu:[{
-            label: 'About',
-            click: createAboutWindow
-        }]
-    }] : []),
-    {
-    label:'File',
-    submenu:  [{
-        label: 'Quit',
-        click: () =>{app.quit()},
-        accelerator: 'CTRL+W'
-    }]
-}, 
-    ...(!isMac ? [{
-        label: 'Help',
-        submenu: [
+  ...(isMac
+    ? [
+        {
+          label: app.name,
+          subMenu: [
             {
-                label:'Upload Dataset',
-                click: createAboutWindow
-            }
-        ]
-    }]: [])
+              label: "About",
+              click: createAboutWindow,
+            },
+          ],
+        },
+      ]
+    : []),
+  ...(!isMac
+    ? [
+        {
+          label: "Draw",
+          submenu: [
+            {
+              label: "Portable Doll House (FXG55)",
+              click: () => consoleLog("Portable Doll House (FXG55)", 10),
+            },
+            {
+              label: "Barbie Wedding Dolls (DJR88)",
+              click: () => consoleLog("Barbie Wedding Dolls (DJR88)", 15),
+            },
+            {
+              label: "Barbie Fashionista Ultimate (GBK12)",
+              click: () =>
+                consoleLog("Barbie Fashionista Ultimate (GBK12)", 40),
+            },
+            {
+              label: "Barbie You Can Be Anything (GNC63)",
+              click: () => consoleLog("Barbie You Can Be Anything (GNC63)", 20),
+            },
+            {
+              label: "Barbie Dolls and Vehicle (GVK02)",
+              click: () => consoleLog("Barbie Dolls and Vehicle (GVK02)", 5),
+            },
+            {
+              label: "Full Articulated Fashion Doll (GNC48)",
+              click: () =>
+                consoleLog("Full Articulated Fashion Doll (GNC48)", 50),
+            },
+            {
+              label: "Hot Wheels Advent Calendar (GTD78)",
+              click: () => consoleLog("Hot Wheels Advent Calendar (GTD78)", 10),
+            },
+            {
+              label: "How Wheels Five Cars (1806)",
+              click: () => consoleLog("How Wheels Five Cars (1806)", 50),
+            },
+            {
+              label: "Juicer",
+              click: () => consoleLog("Juicer", 6),
+            },
+            {
+              label: "Set Alat Makan",
+              click: () => consoleLog("Set Alat Makan", 7),
+            },
+            {
+              label: "Tas Travel",
+              click: () => consoleLog("Tas Travel", 4),
+            },
+            {
+              label: "Setrika",
+              click: () => consoleLog("Setrika", 2),
+            },
+            {
+              label: "Kipas",
+              click: () => consoleLog("Kipas", 2),
+            },
+            {
+              label: "Panci",
+              click: () => consoleLog("Panci", 1),
+            },
+            {
+              label: "Kulkas",
+              click: () => consoleLog("Kulkas", 1),
+            },
+          ],
+        },
+      ]
+    : []),
 
-]
+  {
+    label: "File",
+    submenu: [
+      {
+        label: "Quit",
+        click: () => {
+          app.quit();
+        },
+        accelerator: "Ctrl+W",
+      },
+    ],
+  },
+  ...(!isMac
+    ? [
+        {
+          label: "Help",
+          submenu: [
+            {
+              label: "Upload Dataset",
+              click: createAboutWindow,
+            },
+          ],
+        },
+      ]
+    : []),
+];
+  
 
-
+function consoleLog(name, qty){
+    console.log(name, qty)
+    mainWindow.webContents.send('sendDrawData', {name: name, quantity: qty});
+}
 
 app.on('window-all-closed', () => {
     if (!isMac) {
@@ -174,7 +263,17 @@ let TotalNumber = [];
 function getDataParticipants(){
     // Reading our test file 
     const file = reader.readFile(path.join(__dirname, './renderer/Template_Database.xlsx')) // Change this to make it dynamic a
-    let data = [] 
+    let data = []
+
+    let data1=[]
+    let data2=[]
+    let data3=[]
+    let data4=[]
+    let data5=[]
+    let data6=[]
+    let data7=[]
+    let data8=[]
+    let data9=[]
 
     
     const sheets = file.SheetNames 

@@ -1,3 +1,6 @@
 node_modules
 package-lock.json
 door-prize-win32-x64
+Template_Database.xlsx
+DataBaseFolder/Template_Database.xlsx
+renderer/Template_Database.xlsx
