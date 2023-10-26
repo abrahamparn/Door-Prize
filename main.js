@@ -56,6 +56,25 @@ function createAboutWindow(){
     aboutWindow.loadFile(path.join(__dirname, './renderer/about.html'))
 }
 
+function createAnimateWindow(){
+  animateWindow = new BrowserWindow({
+    title: "Animate...",
+    width: 600,
+    height: 400,
+    webPreferences:{
+      contextIsolation:true,
+      nodeIntegration:true,
+      preload: path.join(__dirname, 'preload.js')
+    }
+  })
+  animateWindow.setMenu(null);
+  if(isDev){
+    animateWindow.webContents.openDevTools();
+  }
+
+  animateWindow.loadFile(path.join(__dirname, 'renderer', 'animationWindow', 'animation.html'))
+}
+
 
 app.whenReady().then(()=>{
     createMainWindow();
@@ -73,7 +92,7 @@ app.whenReady().then(()=>{
 
 // MENU TEMPLATE  // Change it if you want
 const menu = [
-  ...(isMac
+    ...(isMac
     ? [
         {
           label: app.name,
@@ -86,6 +105,7 @@ const menu = [
         },
       ]
     : []),
+   
   ...(!isMac
     ? [
         {
@@ -170,6 +190,28 @@ const menu = [
       },
     ],
   },
+  {
+    label: "Result",
+    submenu: [
+      {
+        label: "Check Result",
+        click: () => {
+          resultResult()
+        },
+       
+      },
+    ],
+  },
+  {
+    label: "Animate",
+    submenu: [
+      {
+        label: "Check Result",
+        click: createAnimateWindow,
+       
+      },
+    ],
+  },
   ...(!isMac
     ? [
         {
@@ -221,6 +263,11 @@ ipcMain.on('downloadFolder', () => {
         }
     });
 });
+
+function resultResult(){
+  const Path = path.join(__dirname, 'renderer')
+  shell.openPath(Path)
+}
 // THIS IS TO RECEIVE THE EXCEL
 // Response to IPC Renderer
 ipcMain.on('excel:doNothing', (e, options) => {

@@ -181,7 +181,6 @@ function animate() {
 
 // THIS IS FOR ABOUT
 ipcRenderer.on("sendDrawData", function (data) {
-  alert(data.name + " " + data.quantity);
   theDoorPriceName = data.name;
   rollNumber = data.quantity;
   ipcRenderer.send('Rollingmiscellaneous', {
@@ -190,4 +189,7 @@ ipcRenderer.on("sendDrawData", function (data) {
     theDoorPriceName
 })
   getFileAndChangeBackground("SEPEDAH");
+  datadata.innerHTML = data.name
+  judulDoorPrise.innerHTML = ""
+
 });
