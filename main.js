@@ -10,7 +10,7 @@ const databaseFilePath = path.join(process.resourcesPath, 'Template_Database.xls
 
 
 const isMac = process.platform === 'darwin'
-process.env.NODE_ENV = 'production'
+process.env.NODE_ENV = 'development'
 const isDev = process.env.NODE_ENV !== 'production'
 
 let mainWindow;
@@ -59,8 +59,8 @@ function createAboutWindow(){
 function createAnimateWindow(){
   animateWindow = new BrowserWindow({
     title: "Animate...",
-    width: 600,
-    height: 400,
+    width: 922,
+    height: 1024,
     webPreferences:{
       contextIsolation:true,
       nodeIntegration:true,
@@ -345,24 +345,35 @@ ipcMain.on('Rollingmiscellaneous', (e, options)=>{
     theDoorPriceName = options.theDoorPriceName
 })
 ipcMain.on('toShowData', function(){
-   // Reading our test file 
-   const file = reader.readFile(path.join(__dirname, './renderer/Template_Database.xlsx')) // Change this to make it dynamic a
-   let data = []
-   const sheets = file.SheetNames 
-   
-   for(let i = 0; i < sheets.length; i++) { 
-       const temp = reader.utils.sheet_to_json( 
-               file.Sheets[file.SheetNames[i]]) 
-               temp.forEach((res) => { 
-                   if(res.ISSELECTED === 1){
-                       data.push({NAME: res.Name, KPK:res.KPK}) 
-                   }
-               }
-       ) 
-   } 
-   console.log(data)
+  //THIS IS HARD
+  let spaceSpace;
+  fs.readFile(path.join(__dirname, './renderer/file.txt'), "utf-8", (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      spaceSpace = data.split('\n\n')
+      console.log(spaceSpace)
+      animateWindow.webContents.send('sendRolledData', {theData: spaceSpace})
 
-   animateWindow.webContents.send('sendRolledData', {theData: data})
+    }
+  });
+   // Reading our test file 
+  //  const file = reader.readFile(path.join(__dirname, './renderer/Template_Database.xlsx')) // Change this to make it dynamic a
+  //  let data = []
+  //  const sheets = file.SheetNames 
+   
+  //  for(let i = 0; i < sheets.length; i++) { 
+  //      const temp = reader.utils.sheet_to_json( 
+  //              file.Sheets[file.SheetNames[i]]) 
+  //              temp.forEach((res) => { 
+  //                  if(res.ISSELECTED === 1){
+  //                      data.push({NAME: res.Name, KPK:res.KPK}) 
+  //                  }
+  //              }
+  //      ) 
+  //  } 
+
+
    
 })
 
