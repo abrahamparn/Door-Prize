@@ -136,6 +136,8 @@ let frame;
 let startTime = 0; // Initialize the startTime variable
 let Rolling = document.getElementById("buttonRolling");
 Rolling.addEventListener("click", () => {
+  document.getElementById('yangBakalanDiHidden').classList.add('d-none')
+  // document.getElementById('yangBakalanDiHidden').classList.remove
   ipcRenderer.send("RollingDoorPrice");
 });
 let datadata = document.querySelector(".datadata");
@@ -146,12 +148,13 @@ ipcRenderer.on("sendRollingData", function (data) {
   if (data.Error != null) {
     datadata.innerHTML = data.Message;
   } else {
-    judulHTML = `${data.theDoorPriceName}`;
+    judulHTML = `${data.theDoorPriceName}`.toUpperCase().bold();
+    ;
     namesHtml = ``; // Initialize an empty string to accumulate the names
 
     data.ChoosenOne.forEach((item) => {
       console.log(item);
-      namesHtml += `${item.NAME} (${item.KPK}), `; // Add each name to the string
+      namesHtml += `<div ><h3 class="bg-light">${item.NAME} - ${item.KPK}</h3></div>`; // Add each name to the string
     });
     judulDoorPrise.innerHTML = judulHTML;
     // Initialize letters and steps here
@@ -163,9 +166,11 @@ ipcRenderer.on("sendRollingData", function (data) {
     animate();
   }
 });
+let animationId;
 
-function animate() {
-  frame = requestAnimationFrame(animate);
+function animate2() {
+  datadata.classList.remove('d-none')
+  frame = requestAnimationFrame(animate2);
 
   const currentTime = Date.now();
   const step = Math.round(map(currentTime - startTime, 0, duration, 0, steps));
@@ -179,6 +184,32 @@ function animate() {
   }
 }
 
+function animate() {
+  datadata.classList.add('d-none')
+
+  document.getElementById("randomErrorinAja").classList.remove('d-none')
+  document.getElementById("randomErrorinAja").innerText = randomString(10);
+  animationId = requestAnimationFrame(animate);
+}
+
+function randomString(length) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+}
+
+
+
+document.getElementById('stopAnimation').addEventListener('click', function(){
+  document.getElementById("randomErrorinAja").classList.add('d-none')
+  datadata.classList.remove('d-none')
+  cancelAnimationFrame(animationId);
+
+  animate2()
+})
 // THIS IS FOR ABOUT
 ipcRenderer.on("sendDrawData", function (data) {
   theDoorPriceName = data.name;
@@ -188,8 +219,8 @@ ipcRenderer.on("sendDrawData", function (data) {
     rollNumber,
     theDoorPriceName
 })
-  getFileAndChangeBackground("SEPEDAH");
-  datadata.innerHTML = data.name
-  judulDoorPrise.innerHTML = ""
+  //getFileAndChangeBackground("SEPEDAH");
+  //datadata.innerHTML = data.name
+  judulDoorPrise.innerHTML = data.name
 
 });

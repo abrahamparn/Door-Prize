@@ -34,20 +34,36 @@
         <hr />
       </div>
     </header>
-    <main class="container-fluid flex-fill">
+    <main class="container-fluid flex-fill d-flex justify-content-center">
       <div class="d-flex justify-content-center">
         <div
           class="d-flex flex-column gap-1 justify-content-center align-items-center h-100"
         >
-          <div class="card d-none" id="CardDisplay">
-            <div class="card-body">
+          <div class=" d-none" id="CardDisplay">
+            <div class="">
               <h1 class="judulData text-center"></h1>
-              <h2 class="datadata text-center"></h2>
+              <h1 id="randomErrorinAja" class="text-center"></h1>
+              <div class="datadata text-center grid-container font-weight-bold"></div>
             </div>
           </div>
-          <div class="card bg-primary" id="buttonRolling">
+          <div class="card bg-primary mt-6" id="yangBakalanDiHidden">
             <div class="card-body text-white">
-              <p class="text-center h-100 m-0">DRAW!</p>
+             
+              <h1 class="text-center h-100 m-0">PLAY DAY TSM PT.MATTEL INDONESIA</h1>
+            </div>
+          </div>
+          <div class="d-flex flex-row gap-3">
+            <div class="card bg-primary" id="buttonRolling">
+              <div class="card-body text-white">
+               
+                <p class="text-center h-100 m-0 h2">DRAW!</p>
+              </div>
+            </div>
+            <div class="card bg-primary" id="stopAnimation">
+              <div class="card-body text-white">
+               
+                <p class="text-center h-100 m-0 h2" >STOP!</p>
+              </div>
             </div>
           </div>
         </div>

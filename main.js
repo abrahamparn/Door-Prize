@@ -10,7 +10,7 @@ const databaseFilePath = path.join(process.resourcesPath, 'Template_Database.xls
 
 
 const isMac = process.platform === 'darwin'
-process.env.NODE_ENV = 'development'
+process.env.NODE_ENV = 'production'
 const isDev = process.env.NODE_ENV !== 'production'
 
 let mainWindow;
@@ -344,6 +344,27 @@ ipcMain.on('Rollingmiscellaneous', (e, options)=>{
     rollNumber = +options.rollNumber
     theDoorPriceName = options.theDoorPriceName
 })
+ipcMain.on('toShowData', function(){
+   // Reading our test file 
+   const file = reader.readFile(path.join(__dirname, './renderer/Template_Database.xlsx')) // Change this to make it dynamic a
+   let data = []
+   const sheets = file.SheetNames 
+   
+   for(let i = 0; i < sheets.length; i++) { 
+       const temp = reader.utils.sheet_to_json( 
+               file.Sheets[file.SheetNames[i]]) 
+               temp.forEach((res) => { 
+                   if(res.ISSELECTED === 1){
+                       data.push({NAME: res.Name, KPK:res.KPK}) 
+                   }
+               }
+       ) 
+   } 
+   console.log(data)
+
+   animateWindow.webContents.send('sendRolledData', {theData: data})
+   
+})
 
 // This is for the door price
 ipcMain.on('RollingDoorPrice', function(event){
@@ -441,9 +462,18 @@ function RollingData(makanan){
 // }
 
 async function WriteEXCEL(ChoosenOne) {
+  const percobaan = `${theDoorPriceName}`;
+  console.log(percobaan)
+  await fs.appendFile(path.join(__dirname, './renderer/file.txt'), percobaan+'\n', {flag: 'a+'}, (err) => { 
+      if (err) { 
+          throw err; 
+      } 
+      console.log("File is updated."); 
+  });
+  console.log(ChoosenOne)
     for (const item of ChoosenOne) {
       try {
-        const data = `${item.NAME} ${item.KPK} ${theDoorPriceName}`;
+        const data = `${item.NAME} ${item.KPK}`;
         console.log(data)
         await fs.appendFile(path.join(__dirname, './renderer/file.txt'), data+'\n', {flag: 'a+'}, (err) => { 
             if (err) { 
@@ -483,7 +513,14 @@ async function WriteEXCEL(ChoosenOne) {
       }
       await new Promise(resolve => setTimeout(resolve, 100)); // Delay each iteration by 100 milliseconds
     }
-  }
+  
+  await fs.appendFile(path.join(__dirname, './renderer/file.txt'), '\n', {flag: 'a+'}, (err) => { 
+    if (err) { 
+        throw err; 
+    } 
+    console.log("File is updated."); 
+  });
+}
 
 
 // THIS WORKS WORKS WORKS
