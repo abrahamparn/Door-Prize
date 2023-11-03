@@ -83,11 +83,21 @@ app.whenReady().then(()=>{
     mainMenu.on('closed', ()=>{
         mainWindow = null
     })
+    // mainMenu.webContents.on('before-input-event', (event, input) => {
+    //   if(input.control && input.key.toLowerCase() === 'i' ){
+    //     console.log('Pressed Control+I')
+    //     event.preventDefault()
+    //   }
+    // })
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
             createMainWindow()
         }
-      })
+      }
+    )
+
+
+    
 })
 
 // MENU TEMPLATE  // Change it if you want

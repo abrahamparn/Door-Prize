@@ -141,7 +141,7 @@ Rolling.addEventListener("click", () => {
   ipcRenderer.send("RollingDoorPrice");
 });
 let datadata = document.querySelector(".datadata");
-let judulDoorPrise = document.querySelector(".judulData");
+//let judulDoorPrise = document.querySelector(".judulData");
 ipcRenderer.on("sendRollingData", function (data) {
   console.log(data);
   document.getElementById("CardDisplay").classList.remove("d-none");
@@ -156,7 +156,7 @@ ipcRenderer.on("sendRollingData", function (data) {
       console.log(item);
       namesHtml += `<div ><h3 class="bg-light">${item.NAME} - ${item.KPK}</h3></div>`; // Add each name to the string
     });
-    judulDoorPrise.innerHTML = judulHTML;
+    //judulDoorPrise.innerHTML = judulHTML;
     // Initialize letters and steps here
     letters = String(namesHtml).split("");
     steps = letters.length;
@@ -221,7 +221,17 @@ ipcRenderer.on("sendDrawData", function (data) {
 })
   getFileAndChangeBackground("SEPEDAH");
   //datadata.innerHTML = data.name
-  judulDoorPrise.innerHTML = data.name
+  //judulDoorPrise.innerHTML = data.name
   document.getElementById('DoorPrizeApplication').innerHTML = data.name
   document.getElementById('DoorPrizeApplication').style.fontSize = '60px'
 });
+
+window.addEventListener('keyup', (event) => {
+  if (event.ctrlKey && event.key === 'Enter') {
+    Rolling.click()
+  }
+
+  if(event.ctrlKey && event.key === 'Shift'){
+    document.getElementById('stopAnimation').click()
+  }
+}, true);

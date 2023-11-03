@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge" /> -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Security-Policy" content="script-src 'self'" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -41,7 +42,7 @@
         >
           <div class=" d-none" id="CardDisplay">
             <div class="">
-              <h1 class="judulData text-center"></h1>
+              <!-- <h1 class="judulData text-center"></h1> -->
               <h1 id="randomErrorinAja" class="text-center"></h1>
               <div class="datadata text-center grid-container font-weight-bold"></div>
             </div>
@@ -51,14 +52,14 @@
              <img src="./image/barbie.gif"/>
             </div>
           </div>
-          <div class="d-flex flex-row gap-3">
-            <div class="card bg-primary" id="buttonRolling">
+          <div class="d-flex flex-row gap-3 ">
+            <div class="card bg-primary" id="buttonRolling" hidden>
               <div class="card-body text-white">
                
                 <p class="text-center h-100 m-0 h2">DRAW!</p>
               </div>
             </div>
-            <div class="card bg-primary" id="stopAnimation">
+            <div class="card bg-primary" id="stopAnimation" hidden>
               <div class="card-body text-white">
                
                 <p class="text-center h-100 m-0 h2" >STOP!</p>
@@ -68,11 +69,11 @@
         </div>
       </div>
     </main>
-    <footer
+    <!-- <footer
       class="text-center pt-2"
       style="color: white; background-color: cadetblue"
     >
       <p class="mb-0">Made with &#10084; for PTMI</p>
-    </footer>
+    </footer> -->
   </body>
 </html>
