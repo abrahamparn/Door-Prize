@@ -219,8 +219,9 @@ ipcRenderer.on("sendDrawData", function (data) {
     rollNumber,
     theDoorPriceName
 })
-  //getFileAndChangeBackground("SEPEDAH");
+  getFileAndChangeBackground("SEPEDAH");
   //datadata.innerHTML = data.name
   judulDoorPrise.innerHTML = data.name
-
+  document.getElementById('DoorPrizeApplication').innerHTML = data.name
+  document.getElementById('DoorPrizeApplication').style.fontSize = '60px'
 });

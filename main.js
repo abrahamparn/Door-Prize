@@ -59,8 +59,8 @@ function createAboutWindow(){
 function createAnimateWindow(){
   animateWindow = new BrowserWindow({
     title: "Animate...",
-    width: 922,
-    height: 1024,
+    width: 576,
+    height: 720,
     webPreferences:{
       contextIsolation:true,
       nodeIntegration:true,
@@ -114,64 +114,94 @@ const menu = [
             {
               label: "Portable Doll House (FXG55)",
               click: () => consoleLog("Portable Doll House (FXG55)", 10),
+              accelerator: "Ctrl+1",
+
             },
             {
               label: "Barbie Wedding Dolls (DJR88)",
               click: () => consoleLog("Barbie Wedding Dolls (DJR88)", 15),
+              accelerator: "Ctrl+2",
+
             },
             {
               label: "Barbie Fashionista Ultimate (GBK12)",
-              click: () =>
-                consoleLog("Barbie Fashionista Ultimate (GBK12)", 40),
+              click: () => consoleLog("Barbie Fashionista Ultimate (GBK12)", 40),
+              accelerator: "Ctrl+3",
+
+                
             },
             {
               label: "Barbie You Can Be Anything (GNC63)",
               click: () => consoleLog("Barbie You Can Be Anything (GNC63)", 20),
+              accelerator: "Ctrl+4",
+
             },
             {
               label: "Barbie Dolls and Vehicle (GVK02)",
               click: () => consoleLog("Barbie Dolls and Vehicle (GVK02)", 5),
+              accelerator: "Ctrl+5",
+
             },
             {
               label: "Full Articulated Fashion Doll (GNC48)",
-              click: () =>
-                consoleLog("Full Articulated Fashion Doll (GNC48)", 50),
+              click: () => consoleLog("Full Articulated Fashion Doll (GNC48)", 50),
+              accelerator: "Ctrl+6",
+
+
             },
             {
               label: "Hot Wheels Advent Calendar (GTD78)",
               click: () => consoleLog("Hot Wheels Advent Calendar (GTD78)", 10),
+              accelerator: "Ctrl+7",
+
             },
             {
               label: "How Wheels Five Cars (1806)",
               click: () => consoleLog("How Wheels Five Cars (1806)", 50),
+              accelerator: "Ctrl+8",
+
             },
             {
               label: "Juicer",
               click: () => consoleLog("Juicer", 6),
+              accelerator: "Ctrl+9",
+
             },
             {
               label: "Set Alat Makan",
               click: () => consoleLog("Set Alat Makan", 7),
+              accelerator: "Ctrl+0",
+
             },
             {
               label: "Tas Travel",
               click: () => consoleLog("Tas Travel", 4),
+              accelerator: "Ctrl+Q",
+
             },
             {
               label: "Setrika",
               click: () => consoleLog("Setrika", 2),
+              accelerator: "Ctrl+W",
+
             },
             {
               label: "Kipas",
               click: () => consoleLog("Kipas", 2),
+              accelerator: "Ctrl+E",
+
             },
             {
               label: "Panci",
               click: () => consoleLog("Panci", 1),
+              accelerator: "Ctrl+R",
+
             },
             {
               label: "Kulkas",
               click: () => consoleLog("Kulkas", 1),
+              accelerator: "Ctrl+T",
+
             },
           ],
         },
@@ -186,7 +216,6 @@ const menu = [
         click: () => {
           app.quit();
         },
-        accelerator: "Ctrl+W",
       },
     ],
   },
