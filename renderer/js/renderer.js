@@ -99,22 +99,27 @@ let theDoorPriceName;
 //     mainContainer.style.backgroundImage = 'none';
 //     fileBackgroundInput.value = ''; // Clear the file input
 // });
-function getFileAndChangeBackground(backGroundName) {
-  let makanan = backGroundName;
-  if (hasWhiteSpace(backGroundName) === true) {
-    makanan = backGroundName.split(" ");
-    makanan = makanan.join("%20");
-  }
-  var link = `../renderer/image/${makanan}.jpg`;
-  let mainContainer = document.querySelector(".theBody");
-  // Set the background image of the main container
-  mainContainer.style.backgroundImage = `url(${link})`;
-  console.log(link);
-  mainContainer.style.backgroundSize = "cover";
-  mainContainer.style.backgroundRepeat = "no-repeat";
-  mainContainer.style.backgroundAttachment = "fixed"; // Optional, for fixed background
-  mainContainer.style.backgroundPosition = "center center";
-}
+// function getFileAndChangeBackground(backGroundName) {
+//   let makanan = backGroundName;
+//   if (hasWhiteSpace(backGroundName) === true) {
+//     makanan = backGroundName.split(" ");
+//     makanan = makanan.join("%20");
+//   }
+//   var link = `../renderer/image/kids.png`;
+//   let mainContainer = document.querySelector(".theBody");
+//   // Set the background image of the main container
+//   mainContainer.style.backgroundImage = `url(${link})`;
+//   console.log(link);
+//   let backgroundImageOverlay = document.createElement("div");
+
+//   mainContainer.style.backgroundSize = "cover";
+//   mainContainer.style.backgroundRepeat = "no-repeat";
+//   mainContainer.style.backgroundAttachment = "fixed"; // Optional, for fixed background
+//   mainContainer.style.backgroundPosition = "center center";
+//   backgroundImageOverlay.classList.add("background-overlay");
+//   mainContainer.appendChild(backgroundImageOverlay);
+//   backgroundImageOverlay.style.opacity = 0.5;
+// }
 
 function hasWhiteSpace(s) {
   return s.indexOf(" ") >= 0;
@@ -154,7 +159,7 @@ ipcRenderer.on("sendRollingData", function (data) {
 
     data.ChoosenOne.forEach((item) => {
       console.log(item);
-      namesHtml += `<div ><h3 class="bg-light">${item.NAME} - ${item.KPK}</h3></div>`; // Add each name to the string
+      namesHtml += `<div ><h2 class="bg-light">${item.NAME} - ${item.KPK}</h2></div>`; // Add each name to the string
     });
     //judulDoorPrise.innerHTML = judulHTML;
     // Initialize letters and steps here
@@ -219,7 +224,7 @@ ipcRenderer.on("sendDrawData", function (data) {
     rollNumber,
     theDoorPriceName
 })
-  getFileAndChangeBackground("SEPEDAH");
+  // getFileAndChangeBackground("SEPEDAH");
   //datadata.innerHTML = data.name
   //judulDoorPrise.innerHTML = data.name
   document.getElementById('DoorPrizeApplication').innerHTML = data.name

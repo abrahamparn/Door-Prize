@@ -514,7 +514,7 @@ function RollingData(makanan){
 async function WriteEXCEL(ChoosenOne) {
   const percobaan = `${theDoorPriceName}`;
   console.log(percobaan)
-  await fs.appendFile(path.join(__dirname, './renderer/file.txt'), percobaan+'\n', {flag: 'a+'}, (err) => { 
+  await fs.appendFile(path.join(__dirname, './renderer/file.txt'), '<h4>'+percobaan+'</h4>'+'\n', {flag: 'a+'}, (err) => { 
       if (err) { 
           throw err; 
       } 
