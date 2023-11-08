@@ -10,7 +10,7 @@ const databaseFilePath = path.join(process.resourcesPath, 'Template_Database.xls
 
 
 const isMac = process.platform === 'darwin'
-process.env.NODE_ENV = 'development'
+process.env.NODE_ENV = 'develpment'
 const isDev = process.env.NODE_ENV !== 'production'
 
 let mainWindow;
@@ -523,7 +523,7 @@ async function WriteEXCEL(ChoosenOne) {
   console.log(ChoosenOne)
     for (const item of ChoosenOne) {
       try {
-        const data = `${item.NAME} ${item.KPK}`;
+        const data = `${item.KPK} ${item.NAME}`;
         console.log(data)
         await fs.appendFile(path.join(__dirname, './renderer/file.txt'), data+'\n', {flag: 'a+'}, (err) => { 
             if (err) { 

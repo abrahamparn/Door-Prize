@@ -159,7 +159,7 @@ ipcRenderer.on("sendRollingData", function (data) {
 
     data.ChoosenOne.forEach((item) => {
       console.log(item);
-      namesHtml += `<div ><h2 class="bg-light">${item.NAME} - ${item.KPK}</h2></div>`; // Add each name to the string
+      namesHtml += `<div ><h2 class="bg-light">${item.KPK} - ${item.NAME}</h2></div>`; // Add each name to the string
     });
     //judulDoorPrise.innerHTML = judulHTML;
     // Initialize letters and steps here
