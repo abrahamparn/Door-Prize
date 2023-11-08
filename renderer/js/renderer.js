@@ -142,6 +142,8 @@ let startTime = 0; // Initialize the startTime variable
 let Rolling = document.getElementById("buttonRolling");
 Rolling.addEventListener("click", () => {
   document.getElementById('yangBakalanDiHidden').classList.add('d-none')
+  document.body.style.backgroundImage = 'url("../renderer/image/60opacity.png")'
+
   // document.getElementById('yangBakalanDiHidden').classList.remove
   ipcRenderer.send("RollingDoorPrice");
 });

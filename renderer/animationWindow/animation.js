@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(updatedStrArray);
     updatedStrArray.forEach((element) => {
       // console.log(element)
-      theHtml += `<p class='text-white text-left' style="font-size:2px">${element}</p>`;
+      theHtml += `<p class='text-white text-left' >${element}</p>`;
     });
     divHtml.innerHTML = theHtml;
   });

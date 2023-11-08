@@ -10,7 +10,7 @@ const databaseFilePath = path.join(process.resourcesPath, 'Template_Database.xls
 
 
 const isMac = process.platform === 'darwin'
-process.env.NODE_ENV = 'develpment'
+process.env.NODE_ENV = 'development'
 const isDev = process.env.NODE_ENV !== 'production'
 
 let mainWindow;
@@ -59,8 +59,8 @@ function createAboutWindow(){
 function createAnimateWindow(){
   animateWindow = new BrowserWindow({
     title: "Animate...",
-    width: 576,
-    height: 720,
+    width: 1600,
+    height: 2560,
     webPreferences:{
       contextIsolation:true,
       nodeIntegration:true,
@@ -129,20 +129,20 @@ const menu = [
             },
             {
               label: "Barbie Wedding Dolls (DJR88)",
-              click: () => consoleLog("Barbie Wedding Dolls (DJR88)", 15),
+              click: () => consoleLog("Barbie Wedding Dolls (DJR88)", 35),
               accelerator: "Ctrl+2",
 
             },
             {
               label: "Barbie Fashionista Ultimate (GBK12)",
-              click: () => consoleLog("Barbie Fashionista Ultimate (GBK12)", 40),
+              click: () => consoleLog("Barbie Fashionista Ultimate (GBK12)", 50),
               accelerator: "Ctrl+3",
 
                 
             },
             {
               label: "Barbie You Can Be Anything (GNC63)",
-              click: () => consoleLog("Barbie You Can Be Anything (GNC63)", 20),
+              click: () => consoleLog("Barbie You Can Be Anything (GNC63)", 30),
               accelerator: "Ctrl+4",
 
             },
@@ -154,7 +154,7 @@ const menu = [
             },
             {
               label: "Full Articulated Fashion Doll (GNC48)",
-              click: () => consoleLog("Full Articulated Fashion Doll (GNC48)", 50),
+              click: () => consoleLog("Full Articulated Fashion Doll (GNC48)", 20),
               accelerator: "Ctrl+6",
 
 
@@ -172,45 +172,68 @@ const menu = [
 
             },
             {
-              label: "Juicer",
-              click: () => consoleLog("Juicer", 6),
+              label: "Mini Juicer",
+              click: () => consoleLog("Mini Juicer", 6),
               accelerator: "Ctrl+9",
 
             },
             {
-              label: "Set Alat Makan",
-              click: () => consoleLog("Set Alat Makan", 7),
-              accelerator: "Ctrl+0",
-
-            },
-            {
-              label: "Tas Travel",
-              click: () => consoleLog("Tas Travel", 4),
+              label: "Fry Pan",
+              click: () => consoleLog("Fry Pan", 4),
               accelerator: "Ctrl+Q",
 
             },
             {
-              label: "Setrika",
-              click: () => consoleLog("Setrika", 2),
+              label: "Travel Bag",
+              click: () => consoleLog("Travel Bag", 4),
               accelerator: "Ctrl+W",
 
             },
             {
-              label: "Kipas",
-              click: () => consoleLog("Kipas", 2),
+              label: "Teapot",
+              click: () => consoleLog("Teapot", 5),
               accelerator: "Ctrl+E",
 
             },
             {
-              label: "Panci",
-              click: () => consoleLog("Panci", 1),
+              label: "Desk Fan",
+              click: () => consoleLog("Desk fan", 1),
               accelerator: "Ctrl+R",
 
             },
             {
-              label: "Kulkas",
-              click: () => consoleLog("Kulkas", 1),
+              label: "Power Bank",
+              click: () => consoleLog("Power Bank", 6),
               accelerator: "Ctrl+T",
+
+            },
+            {
+              label: "Lunch Box",
+              click: () => consoleLog("Lunch Box", 7),
+              accelerator: "Ctrl+Y",
+
+            },
+            {
+              label: "Electric Iron",
+              click: () => consoleLog("Electric Iron", 2),
+              accelerator: "Ctrl+U",
+
+            },
+            {
+              label: "Pressure Cooker",
+              click: () => consoleLog("Pressure Cooker", 1),
+              accelerator: "Ctrl+I",
+            },
+            {
+              label: "Magic Com",
+              click: () => consoleLog("Magic Com", 1),
+              accelerator: "Ctrl+O",
+
+            },
+            {
+              label: "GRAND PRIZE",
+              click: () => consoleLog("GRAND PRIZE", 1),
+              accelerator: "Ctrl+P",
 
             },
           ],
@@ -512,64 +535,64 @@ function RollingData(makanan){
 // }
 
 async function WriteEXCEL(ChoosenOne) {
-  const percobaan = `${theDoorPriceName}`;
-  console.log(percobaan)
-  await fs.appendFile(path.join(__dirname, './renderer/file.txt'), '<h4>'+percobaan+'</h4>'+'\n', {flag: 'a+'}, (err) => { 
-      if (err) { 
-          throw err; 
-      } 
-      console.log("File is updated."); 
-  });
-  console.log(ChoosenOne)
-    for (const item of ChoosenOne) {
-      try {
-        const data = `${item.KPK} ${item.NAME}`;
-        console.log(data)
-        await fs.appendFile(path.join(__dirname, './renderer/file.txt'), data+'\n', {flag: 'a+'}, (err) => { 
-            if (err) { 
-                throw err; 
-            } 
-            console.log("File is updated."); 
-        });
+  // const percobaan = `${theDoorPriceName}`;
+  // console.log(percobaan)
+  // await fs.appendFile(path.join(__dirname, './renderer/file.txt'), '<h4>'+percobaan+'</h4>'+'\n', {flag: 'a+'}, (err) => { 
+  //     if (err) { 
+  //         throw err; 
+  //     } 
+  //     console.log("File is updated."); 
+  // });
+  // console.log(ChoosenOne)
+  //   for (const item of ChoosenOne) {
+  //     try {
+  //       const data = `${item.KPK} ${item.NAME}`;
+  //       console.log(data)
+  //       await fs.appendFile(path.join(__dirname, './renderer/file.txt'), data+'\n', {flag: 'a+'}, (err) => { 
+  //           if (err) { 
+  //               throw err; 
+  //           } 
+  //           console.log("File is updated."); 
+  //       });
         
-        const inputFile = path.join(__dirname, './renderer/Template_Database.xlsx');
-        const sheetName = 'Sheet1';
-        const workbook = reader.readFile(inputFile);
-         // Get the worksheet
-              const worksheet = workbook.Sheets[sheetName];
-              // Define the columns
-              const nameColumn = 'A';
-              const kpkColumn = 'B';
-              const isSelectedColumn = 'D';
+  //       const inputFile = path.join(__dirname, './renderer/Template_Database.xlsx');
+  //       const sheetName = 'Sheet1';
+  //       const workbook = reader.readFile(inputFile);
+  //        // Get the worksheet
+  //             const worksheet = workbook.Sheets[sheetName];
+  //             // Define the columns
+  //             const nameColumn = 'A';
+  //             const kpkColumn = 'B';
+  //             const isSelectedColumn = 'D';
           
-              const isSelectedValue = 1;
-              for (let i = 2; i <= TotalNumber.length; i++) {
-                const cellName = worksheet[`${nameColumn}${i}`];
-                const cellKPK = worksheet[`${kpkColumn}${i}`];
+  //             const isSelectedValue = 1;
+  //             for (let i = 2; i <= TotalNumber.length; i++) {
+  //               const cellName = worksheet[`${nameColumn}${i}`];
+  //               const cellKPK = worksheet[`${kpkColumn}${i}`];
           
-                if (cellName && cellKPK) {
-                  if (cellName.v === item.NAME && cellKPK.v === item.KPK) {
-                    worksheet[`${isSelectedColumn}${i}`] = { t: 'n', v: isSelectedValue };
-                    break; // Assuming there is only one matching row
-                  }
-                }
-              }
+  //               if (cellName && cellKPK) {
+  //                 if (cellName.v === item.NAME && cellKPK.v === item.KPK) {
+  //                   worksheet[`${isSelectedColumn}${i}`] = { t: 'n', v: isSelectedValue };
+  //                   break; // Assuming there is only one matching row
+  //                 }
+  //               }
+  //             }
           
-              // Write the updated worksheet back to the workbook
-              workbook.Sheets[sheetName] = worksheet;
-              reader.writeFile(workbook, inputFile);
-      } catch (err) {
-        console.error("Error writing to file.txt:", err);
-      }
-      await new Promise(resolve => setTimeout(resolve, 100)); // Delay each iteration by 100 milliseconds
-    }
+  //             // Write the updated worksheet back to the workbook
+  //             workbook.Sheets[sheetName] = worksheet;
+  //             reader.writeFile(workbook, inputFile);
+  //     } catch (err) {
+  //       console.error("Error writing to file.txt:", err);
+  //     }
+  //     await new Promise(resolve => setTimeout(resolve, 100)); // Delay each iteration by 100 milliseconds
+  //   }
   
-  await fs.appendFile(path.join(__dirname, './renderer/file.txt'), '\n', {flag: 'a+'}, (err) => { 
-    if (err) { 
-        throw err; 
-    } 
-    console.log("File is updated."); 
-  });
+  // await fs.appendFile(path.join(__dirname, './renderer/file.txt'), '\n', {flag: 'a+'}, (err) => { 
+  //   if (err) { 
+  //       throw err; 
+  //   } 
+  //   console.log("File is updated."); 
+  // });
 }
 
 
