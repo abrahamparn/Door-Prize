@@ -8,9 +8,7 @@ body{
     
 }
 
-  p{
-    font-size: 2px !important;
-  }
+
   .masonry { /* Masonry container */
       -webkit-column-count: 8;
     -moz-column-count:8;
