@@ -10,7 +10,7 @@ const databaseFilePath = path.join(process.resourcesPath, 'Template_Database.xls
 
 
 const isMac = process.platform === 'darwin'
-process.env.NODE_ENV = 'development'
+process.env.NODE_ENV = 'production'
 const isDev = process.env.NODE_ENV !== 'production'
 
 let mainWindow;
@@ -535,64 +535,64 @@ function RollingData(makanan){
 // }
 
 async function WriteEXCEL(ChoosenOne) {
-  // const percobaan = `${theDoorPriceName}`;
-  // console.log(percobaan)
-  // await fs.appendFile(path.join(__dirname, './renderer/file.txt'), '<h4>'+percobaan+'</h4>'+'\n', {flag: 'a+'}, (err) => { 
-  //     if (err) { 
-  //         throw err; 
-  //     } 
-  //     console.log("File is updated."); 
-  // });
-  // console.log(ChoosenOne)
-  //   for (const item of ChoosenOne) {
-  //     try {
-  //       const data = `${item.KPK} ${item.NAME}`;
-  //       console.log(data)
-  //       await fs.appendFile(path.join(__dirname, './renderer/file.txt'), data+'\n', {flag: 'a+'}, (err) => { 
-  //           if (err) { 
-  //               throw err; 
-  //           } 
-  //           console.log("File is updated."); 
-  //       });
+  const percobaan = `${theDoorPriceName}`;
+  console.log(percobaan)
+  await fs.appendFile(path.join(__dirname, './renderer/file.txt'), '<h4>'+percobaan+'</h4>'+'\n', {flag: 'a+'}, (err) => { 
+      if (err) { 
+          throw err; 
+      } 
+      console.log("File is updated."); 
+  });
+  console.log(ChoosenOne)
+    for (const item of ChoosenOne) {
+      try {
+        const data = `${item.KPK} ${item.NAME}`;
+        console.log(data)
+        await fs.appendFile(path.join(__dirname, './renderer/file.txt'), data+'\n', {flag: 'a+'}, (err) => { 
+            if (err) { 
+                throw err; 
+            } 
+            console.log("File is updated."); 
+        });
         
-  //       const inputFile = path.join(__dirname, './renderer/Template_Database.xlsx');
-  //       const sheetName = 'Sheet1';
-  //       const workbook = reader.readFile(inputFile);
-  //        // Get the worksheet
-  //             const worksheet = workbook.Sheets[sheetName];
-  //             // Define the columns
-  //             const nameColumn = 'A';
-  //             const kpkColumn = 'B';
-  //             const isSelectedColumn = 'D';
+        const inputFile = path.join(__dirname, './renderer/Template_Database.xlsx');
+        const sheetName = 'Sheet1';
+        const workbook = reader.readFile(inputFile);
+         // Get the worksheet
+              const worksheet = workbook.Sheets[sheetName];
+              // Define the columns
+              const nameColumn = 'A';
+              const kpkColumn = 'B';
+              const isSelectedColumn = 'D';
           
-  //             const isSelectedValue = 1;
-  //             for (let i = 2; i <= TotalNumber.length; i++) {
-  //               const cellName = worksheet[`${nameColumn}${i}`];
-  //               const cellKPK = worksheet[`${kpkColumn}${i}`];
+              const isSelectedValue = 1;
+              for (let i = 2; i <= TotalNumber.length; i++) {
+                const cellName = worksheet[`${nameColumn}${i}`];
+                const cellKPK = worksheet[`${kpkColumn}${i}`];
           
-  //               if (cellName && cellKPK) {
-  //                 if (cellName.v === item.NAME && cellKPK.v === item.KPK) {
-  //                   worksheet[`${isSelectedColumn}${i}`] = { t: 'n', v: isSelectedValue };
-  //                   break; // Assuming there is only one matching row
-  //                 }
-  //               }
-  //             }
+                if (cellName && cellKPK) {
+                  if (cellName.v === item.NAME && cellKPK.v === item.KPK) {
+                    worksheet[`${isSelectedColumn}${i}`] = { t: 'n', v: isSelectedValue };
+                    break; // Assuming there is only one matching row
+                  }
+                }
+              }
           
-  //             // Write the updated worksheet back to the workbook
-  //             workbook.Sheets[sheetName] = worksheet;
-  //             reader.writeFile(workbook, inputFile);
-  //     } catch (err) {
-  //       console.error("Error writing to file.txt:", err);
-  //     }
-  //     await new Promise(resolve => setTimeout(resolve, 100)); // Delay each iteration by 100 milliseconds
-  //   }
+              // Write the updated worksheet back to the workbook
+              workbook.Sheets[sheetName] = worksheet;
+              reader.writeFile(workbook, inputFile);
+      } catch (err) {
+        console.error("Error writing to file.txt:", err);
+      }
+      await new Promise(resolve => setTimeout(resolve, 100)); // Delay each iteration by 100 milliseconds
+    }
   
-  // await fs.appendFile(path.join(__dirname, './renderer/file.txt'), '\n', {flag: 'a+'}, (err) => { 
-  //   if (err) { 
-  //       throw err; 
-  //   } 
-  //   console.log("File is updated."); 
-  // });
+  await fs.appendFile(path.join(__dirname, './renderer/file.txt'), '\n', {flag: 'a+'}, (err) => { 
+    if (err) { 
+        throw err; 
+    } 
+    console.log("File is updated."); 
+  });
 }
 
 

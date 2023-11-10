@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // element.innerHTML = JSON.stringify(data);
     //    console.log(data)
     let updatedStrArray = data.map((str) => str.replace(/\n/g, "<br>"));
-    console.log(updatedStrArray);
+    console.log(updatedStrArray, "abraham");
     updatedStrArray.forEach((element) => {
       // console.log(element)
       theHtml += `<p class='text-white text-left' >${element}</p>`;
